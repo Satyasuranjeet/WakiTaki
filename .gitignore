@@ -1,0 +1,129 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+
+# Web related
+lib/generated_plugin_registrant.dart
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Additional Flutter build outputs
+build/
+**/build/
+
+# Android specific build artifacts
+android/.gradle/
+android/app/build/
+android/build/
+android/gradle/
+android/gradlew
+android/gradlew.bat
+android/local.properties
+android/key.properties
+android/.gradle/
+android/app/src/main/res/values/
+*.jks
+*.keystore
+
+# iOS specific build artifacts
+ios/build/
+ios/Runner.xcworkspace/xcuserdata/
+ios/Runner.xcworkspace/xcshareddata/
+ios/Flutter/flutter_assets/
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+xcuserdata/
+*.xccheckout
+*.moved-aside
+DerivedData/
+*.hmap
+*.ipa
+*.xcuserstate
+project.xcworkspace
+
+# Web build artifacts
+web/build/
+
+# Windows build artifacts
+windows/build/
+
+# macOS build artifacts
+macos/build/
+
+# Linux build artifacts
+linux/build/
+
+# APK and AAB files (built apps) - but allow specific release APK
+*.apk
+*.aab
+*.ipa
+*.app
+
+# EXCEPTION: Allow the specific release APK file
+!build/app/outputs/flutter-apk/app-release.apk
+
+# Server related (for your Python signaling server)
+server/__pycache__/
+server/*.pyc
+server/venv/
+server/.env
+server/node_modules/
+server/package-lock.json
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.staging
+
+# Coverage reports
+coverage/
+test/coverage/
+
+# Temporary files
+*.tmp
+*.temp
