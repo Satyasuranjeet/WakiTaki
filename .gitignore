@@ -47,6 +47,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+!build/app/outputs/flutter-apk/app-release.apk
 # Additional Flutter build outputs
 build/
 **/build/
@@ -104,7 +105,7 @@ linux/build/
 *.app
 
 # EXCEPTION: Allow the specific release APK file
-!build/app/outputs/flutter-apk/app-release.apk
+
 
 # Server related (for your Python signaling server)
 server/__pycache__/
