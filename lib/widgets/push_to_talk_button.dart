@@ -4,7 +4,8 @@ import 'package:audioplayers/audioplayers.dart';
 class PushToTalkButton extends StatefulWidget {
   final Function(bool) onTalkStateChanged;
 
-  const PushToTalkButton({super.key, required this.onTalkStateChanged});
+  const PushToTalkButton({Key? key, required this.onTalkStateChanged})
+    : super(key: key);
 
   @override
   State<PushToTalkButton> createState() => _PushToTalkButtonState();
@@ -27,6 +28,24 @@ class _PushToTalkButtonState extends State<PushToTalkButton>
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
+  }
+
+  void _startTalking() async {
+    setState(() {
+      _isTalking = true;
+    });
+    _animationController.forward();
+    widget.onTalkStateChanged(true);
+    await _audioPlayer.play(AssetSource('sounds/start_talk.mp3'));
+  }
+
+  void _stopTalking() async {
+    setState(() {
+      _isTalking = false;
+    });
+    _animationController.reverse();
+    widget.onTalkStateChanged(false);
+    await _audioPlayer.play(AssetSource('sounds/stop_talk.mp3'));
   }
 
   @override
@@ -66,28 +85,6 @@ class _PushToTalkButtonState extends State<PushToTalkButton>
         },
       ),
     );
-  }
-
-  void _startTalking() async {
-    setState(() {
-      _isTalking = true;
-    });
-    _animationController.forward();
-    widget.onTalkStateChanged(true);
-
-    // Play start sound
-    await _audioPlayer.play(AssetSource('sounds/start_talk.mp3'));
-  }
-
-  void _stopTalking() async {
-    setState(() {
-      _isTalking = false;
-    });
-    _animationController.reverse();
-    widget.onTalkStateChanged(false);
-
-    // Play stop sound
-    await _audioPlayer.play(AssetSource('sounds/stop_talk.mp3'));
   }
 
   @override

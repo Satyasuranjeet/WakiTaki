@@ -21,6 +21,8 @@ class WebRTCService {
     final configuration = {
       'iceServers': [
         {'urls': 'stun:stun.l.google.com:19302'},
+        {'urls': 'stun:stun1.l.google.com:19302'},
+        {'urls': 'stun:global.stun.twilio.com:3478'},
       ],
     };
 
@@ -31,11 +33,14 @@ class WebRTCService {
         'candidate': candidate.candidate,
         'sdpMid': candidate.sdpMid,
         'sdpMLineIndex': candidate.sdpMLineIndex,
-      }, 'all'); // Broadcast to all users in room
+      }, 'all'); // Broadcast to all users
     };
 
-    _peerConnection!.onTrack = (RTCTrackEvent event) {
-      // Handle incoming audio stream
+    _peerConnection!.onIceConnectionState = (state) {
+      print('ICE Connection State: $state');
+    };
+
+    _peerConnection!.onTrack = (event) {
       print('Received remote track');
     };
   }

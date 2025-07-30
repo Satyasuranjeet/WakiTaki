@@ -1,8 +1,8 @@
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SignalingService {
-  static const String serverUrl =
-      'https://waki-taki-signal.vercel.app'; // Change to your server URL
+  static const String serverUrl = 'https://waki-taki-signal.onrender.com';
+
   late IO.Socket socket;
   String? roomId;
   String? username;
@@ -17,14 +17,22 @@ class SignalingService {
     this.roomId = roomId;
     this.username = username;
 
+    print('🔄 Attempting to connect to: $serverUrl');
     socket = IO.io(serverUrl, <String, dynamic>{
-      'transports': ['websocket'],
+      'transports': ['websocket', 'polling'],
+      'timeout': 20000,
     });
 
     socket.onConnect((_) {
-      print('Connected to signaling server');
+      print('✅ Connected to signaling server successfully!');
       socket.emit('join-room', {'roomId': roomId, 'username': username});
     });
+
+    socket.onConnectError((error) {
+      print('❌ Connect error: $error');
+    });
+
+    socket.onDisconnect((_) => print('🔌 Disconnected from signaling server'));
 
     socket.on('user-joined', (data) {
       onUserJoined?.call(data['username']);
@@ -45,8 +53,6 @@ class SignalingService {
     socket.on('ice-candidate', (data) {
       onIceCandidateReceived?.call(data);
     });
-
-    socket.onDisconnect((_) => print('Disconnected from signaling server'));
   }
 
   void sendOffer(Map<String, dynamic> offer, String targetUser) {

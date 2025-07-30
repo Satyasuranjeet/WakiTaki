@@ -6,7 +6,8 @@ class WalkieScreen extends StatefulWidget {
   final String roomId;
   final String username;
 
-  const WalkieScreen({super.key, required this.roomId, required this.username});
+  const WalkieScreen({Key? key, required this.roomId, required this.username})
+    : super(key: key);
 
   @override
   State<WalkieScreen> createState() => _WalkieScreenState();
@@ -45,6 +46,19 @@ class _WalkieScreenState extends State<WalkieScreen> {
     await _webrtcService.initialize(widget.roomId, widget.username);
   }
 
+  void _toggleMute() {
+    setState(() {
+      _isMuted = !_isMuted;
+    });
+    _webrtcService.toggleMicrophone(!_isMuted);
+  }
+
+  @override
+  void dispose() {
+    _webrtcService.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +74,6 @@ class _WalkieScreenState extends State<WalkieScreen> {
       ),
       body: Column(
         children: [
-          // Connected users list
           Container(
             height: 100,
             padding: const EdgeInsets.all(16),
@@ -102,7 +115,6 @@ class _WalkieScreenState extends State<WalkieScreen> {
               ],
             ),
           ),
-          // Push-to-talk button
           Expanded(
             child: Center(
               child: Column(
@@ -130,18 +142,5 @@ class _WalkieScreenState extends State<WalkieScreen> {
         ],
       ),
     );
-  }
-
-  void _toggleMute() {
-    setState(() {
-      _isMuted = !_isMuted;
-    });
-    _webrtcService.toggleMicrophone(!_isMuted);
-  }
-
-  @override
-  void dispose() {
-    _webrtcService.dispose();
-    super.dispose();
   }
 }

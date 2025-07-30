@@ -3,8 +3,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'walkie_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+  const HomeScreen({Key? key}) : super(key: key);
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -12,6 +11,32 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _roomController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+
+  Future<void> _joinRoom() async {
+    if (_roomController.text.isEmpty || _usernameController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in all fields')),
+      );
+      return;
+    }
+    final micStatus = await Permission.microphone.request();
+    if (!micStatus.isGranted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Microphone permission required')),
+      );
+      return;
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder:
+            (context) => WalkieScreen(
+              roomId: _roomController.text,
+              username: _usernameController.text,
+            ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,35 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Future<void> _joinRoom() async {
-    if (_roomController.text.isEmpty || _usernameController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill in all fields')),
-      );
-      return;
-    }
-
-    // Request microphone permission
-    final status = await Permission.microphone.request();
-    if (status != PermissionStatus.granted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Microphone permission required')),
-      );
-      return;
-    }
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder:
-            (context) => WalkieScreen(
-              roomId: _roomController.text,
-              username: _usernameController.text,
-            ),
       ),
     );
   }
